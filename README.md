@@ -4,8 +4,7 @@
 The Literature Review Assistant is a Streamlit application designed to streamline systematic and scoping literature reviews. It automates several time-consuming aspects of the review process, from searching PubMed to analyzing and synthesizing findings.
 
 # Access the Application
-The Literature Review Assistant is available online at:
-https://review-assistant.streamlit.app/
+The Literature Review Assistant is available online at: https://review-assistant.streamlit.app/
 No local installation is required - simply visit the website to start using the tool.
 
 # Features
@@ -34,8 +33,10 @@ Analyze papers in batches. The application will extract your defined features fr
 6. Filter Results
 Apply filters to refine your dataset based on the extracted features.
 7. Analyze Findings
-Generate a comprehensive analysis of your filtered papers concerning your research question. Note, that while the LLMs here have been strictly prompted to only comment on the filtered results, confabulations can occur. For this reason, always double-check the results with the referenced literature. Please also note that the app currently does not support full-text analyses, which is required for comprehensive systematic and scoping reviews.
+Generate a comprehensive analysis of your filtered papers concerning your research question.
 
+# Limitations
+Note, that while the LLMs here have been strictly prompted to only comment on the filtered results, hallucinations can occur. For this reason, always double-check the results with the referenced literature. Please also note that the app currently does not support full-text analyses, which is required for comprehensive systematic and scoping reviews.
 
 # Deployment Notes
 The application uses Streamlit's session state for temporary data storage
