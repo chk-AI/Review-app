@@ -96,6 +96,8 @@ def create_llm_prompt(text, features, possible_answers):
     prompt = (
         "You are analyzing a scientific paper. For each question below, "
         "answer ONLY using one of the provided possible answers. "
+        "If number or percentage is mentioned as a possible answer,"
+        "write the actual number in the abstract (e.g. 40)"
         "If none of the answers fit or if you're unsure, use 'unclear'.\n\n"
         f"Title and Abstract to analyze:\n{text}\n\n"
         "Questions:\n"
