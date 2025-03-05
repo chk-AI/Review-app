@@ -30,6 +30,10 @@ def initialize_session_state():
     if 'features' not in st.session_state:
         st.session_state.features = []
     
+    # Initialize research_question if not set
+    if 'research_question' not in st.session_state:
+        st.session_state.research_question = ""
+    
     # Remove credentials from session state if page is refreshed
     st.session_state.llm_api_key = None
     st.session_state.pubmed_email = None
