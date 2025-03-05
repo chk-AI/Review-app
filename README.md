@@ -1,7 +1,7 @@
 # Literature Review Assistant
 
 # Overview
-The Literature Review Assistant is a Streamlit application designed to streamline systematic and scoping literature reviews. It automates several time-consuming aspects of the review process, from searching PubMed to analyzing and synthesizing findings.
+The Literature Review Assistant is a Streamlit application designed to assist users in conducting systematic and scoping literature reviews. It semi-automates several time-consuming aspects of the review process, from searching PubMed to analyzing and synthesizing findings.
 
 # Access the Application
 The Literature Review Assistant is available online at: 
