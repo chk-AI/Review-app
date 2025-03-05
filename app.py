@@ -34,6 +34,10 @@ def initialize_session_state():
     st.session_state.llm_api_key = None
     st.session_state.pubmed_email = None
     
+    # Add hypothesis initialization
+    if 'hypothesis' not in st.session_state:
+        st.session_state.hypothesis = ""
+        
     if 'full_df' not in st.session_state:
         st.session_state.full_df = None
         
@@ -222,6 +226,14 @@ def main():
         if st.session_state.current_step < 2:
             st.session_state.current_step = 2
     
+    hypothesis = st.text_area(
+        "Hypothesis (optional):",
+        value=st.session_state.get('hypothesis', ''),
+        help="If you have a specific hypothesis to test, enter it here. Example: 'The short term mortality is lower than 1%'"
+    )
+    if hypothesis:
+        st.session_state.hypothesis = hypothesis
+
     # Step 2: PubMed Search
     st.subheader("2) PubMed search")
     
@@ -471,7 +483,8 @@ def main():
                         research_question,
                         st.session_state.filtered_df,
                         model_name,
-                        llm_api_key
+                        llm_api_key,
+                        st.session_state.get('hypothesis', None)  # Pass the hypothesis here
                     )
                     st.session_state.analysis_result = analysis
                     st.session_state.analysis_truncated = was_truncated

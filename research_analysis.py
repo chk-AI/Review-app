@@ -38,7 +38,7 @@ def format_vancouver_reference(row, ref_number):
     
     return reference
 
-def create_analysis_prompt(research_question, df):
+def create_analysis_prompt(research_question, df, hypothesis=None):
     """Create a structured prompt for analyzing the filtered papers."""
     # Prepare paper summaries with citations and reference list
     paper_summaries = []
@@ -61,7 +61,15 @@ def create_analysis_prompt(research_question, df):
         references.append(format_vancouver_reference(row, ref_num))
 
     prompt = f"""Given the research question: "{research_question}"
+"""
 
+    # Add hypothesis section if one was provided
+    if hypothesis and hypothesis.strip():
+        prompt += f"""
+And the specific hypothesis: "{hypothesis}"
+"""
+
+    prompt += f"""
 You are analyzing a specific set of {len(df)} papers listed below. It is CRUCIAL that you:
 1. ONLY use information from these papers
 2. ONLY cite these papers
@@ -76,7 +84,19 @@ Provide a structured analysis with the following sections:
 - Present the main findings relevant to the research question
 - Use in-text citations in the format (Author et al., Year [ref X])
 - Every claim must be supported by specific citations from the provided papers
+"""
 
+    # Add hypothesis evaluation section if one was provided
+    if hypothesis and hypothesis.strip():
+        prompt += f"""
+# Hypothesis Evaluation
+- Evaluate which studies support the hypothesis and which studies oppose it
+- For each study that supports or opposes the hypothesis, briefly explain why
+- If a study doesn't provide clear evidence related to the hypothesis, state this explicitly
+- Organize this section into "Supporting Studies" and "Opposing Studies" subsections
+"""
+
+    prompt += f"""
 # Gaps in Evidence
 - Identify what aspects of the research question aren't well addressed by these papers
 - Focus on gaps within the scope of the provided papers
@@ -84,7 +104,15 @@ Provide a structured analysis with the following sections:
 # Conclusion
 - Summarize only what can be concluded from these specific papers
 - Be explicit about limitations
+"""
 
+    # Add hypothesis conclusion if one was provided
+    if hypothesis and hypothesis.strip():
+        prompt += f"""
+- Include a specific conclusion about whether the evidence supports, refutes, or is inconclusive regarding the hypothesis
+"""
+
+    prompt += f"""
 # References
 Use this numbered reference list in your citations:
 {'\n'.join(references)}
@@ -99,9 +127,9 @@ Important rules:
 
     return prompt
 
-def analyze_filtered_results(research_question, filtered_df, model_name, api_key, max_tokens=4000):
+def analyze_filtered_results(research_question, filtered_df, model_name, api_key, hypothesis=None, max_tokens=4000):
     """
-    Analyze filtered papers in relation to the research question.
+    Analyze filtered papers in relation to the research question and hypothesis.
     Returns the analysis and a boolean indicating if it was truncated.
     Max tokens increased to 4000 to accommodate full analysis with references.
     """
@@ -110,8 +138,8 @@ def analyze_filtered_results(research_question, filtered_df, model_name, api_key
     # Import here to avoid circular imports
     from llm_utils import get_model_params
     
-    # Create the analysis prompt
-    prompt = create_analysis_prompt(research_question, filtered_df)
+    # Create the analysis prompt with the hypothesis
+    prompt = create_analysis_prompt(research_question, filtered_df, hypothesis)
     
     try:
         # Set up parameters based on model
