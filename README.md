@@ -17,6 +17,7 @@ Progress Tracking: Step-by-step workflow with visual progress indicators
 
 # Prerequisites
 OpenAI API key (for LLM integration)
+
 Email address for PubMed queries
 
 # Usage Guide
